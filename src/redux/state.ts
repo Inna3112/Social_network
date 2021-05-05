@@ -1,7 +1,7 @@
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const ADD_MESSAGE = 'ADD-MESSAGE';
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
+import profileReducer, {addPostAC, updateNewPostTextAC} from "./profile-reducer";
+import dialogsReducer, { addMessageAC, updateNewMessageBodyAC } from "./dialogs-reducer";
+import sidebarReducer from "./sidebar-reducer";
+
 
 export type DialogsType = {
     id: number
@@ -77,41 +77,13 @@ export const store: StoreType = {
         this._callSubscriber = observer
     },
     dispatch(action) {
-        if (action.type === ADD_POST) {
-            const newPost: PostsType = {
-                id: 4,
-                message: this._state.profilePage.newPostText,
-                likesCount: 0
-            }
-            this._state.profilePage.posts.push(newPost)
-            this._state.profilePage.newPostText = ''
-            this._callSubscriber()
-        } else if (action.type === UPDATE_NEW_POST_TEXT) {
-            this._state.profilePage.newPostText = action.newText
-            this._callSubscriber()
-        } else if (action.type === ADD_MESSAGE) {
-            const newMessage: MessagesType = {
-                id: 4,
-                message: this._state.dialogsPage.newMessageBody
-            }
-            this._state.dialogsPage.messages.push(newMessage)
-            this._state.dialogsPage.newMessageBody = ''
-            this._callSubscriber()
-        } else if (action.type === UPDATE_NEW_MESSAGE_BODY) {
-            this._state.dialogsPage.newMessageBody = action.newMessageBody
-            this._callSubscriber()
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+        this._state.sidebar = sidebarReducer(this._state.profilePage, action);
+
+        this._callSubscriber()
     }
 }
-export let addPostAC = () => ({type: ADD_POST}) as const
-
-export let updateNewPostTextAC = (newText: string) =>
-    ({type: UPDATE_NEW_POST_TEXT, newText: newText}) as const
-
-export let addMessageAC = () => ({type: ADD_MESSAGE}) as const
-
-export let updateNewMessageBodyAC = (body: string) =>
-    ({type: UPDATE_NEW_MESSAGE_BODY, newMessageBody: body}) as const
 
 // window.state = state
 
