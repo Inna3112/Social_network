@@ -6,10 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import {store} from "./redux/redux-store";
 import {BrowserRouter} from "react-router-dom";
 
+
 let rerenderEntireTree = () => {
     ReactDOM.render(
         <BrowserRouter>
-            <App store={store} state={store.getState()} dispatch={store.dispatch.bind(store)} />
+            <App store={store} state={store.getState()} dispatch={store.dispatch.bind(store)}/>
         </BrowserRouter>,
         document.getElementById('root'));
 }

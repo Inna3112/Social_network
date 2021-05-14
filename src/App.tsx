@@ -15,7 +15,6 @@ type PropsType = {
 }
 
 function App(props: PropsType) {
-
     return (
         <div className="app-wrapper">
             <Header/>
