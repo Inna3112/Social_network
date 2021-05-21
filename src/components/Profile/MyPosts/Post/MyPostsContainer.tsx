@@ -1,29 +1,39 @@
 import React from 'react';
 import MyPosts from "../MyPosts";
-import {StoreType} from "../../../../redux/store";
+import {PostsType} from "../../../../redux/store";
 import {addPostAC, updateNewPostTextAC} from "../../../../redux/profile-reducer";
+import {connect} from "react-redux";
+import {AppStateType} from '../../../../redux/redux-store';
 
+type MapStatePropsType = {
+    posts: Array<PostsType>
+    newPostText: string
+}
+type MapDispatchPropsType = {
+    addPost: () => void,
+    updateNewPostText: (text: string) => void
+}
+type OwnType = {
+    // props, которые приходят через атрибуты, а не через connect,
+    // если такие есть
+}
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnType
 
-type PropsType = {
-    store: StoreType
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
+    return {
+        posts: state.profilePage.posts,
+        newPostText: state.profilePage.newPostText
+    }
 }
 
-const MyPostsContainer: React.FC<PropsType> = (props) => {
-    let state = props.store.getState()
-
-    let addPost = () => {
-        props.store.dispatch(addPostAC())
+const mapDispatchToProps = (dispatch: any): MapDispatchPropsType => {
+    return {
+        addPost: () => dispatch(addPostAC()),
+        updateNewPostText: (text: string) => dispatch(updateNewPostTextAC(text))
     }
-    let onPostChange = (text: string) => {
-        props.store.dispatch(updateNewPostTextAC(text))
-        // props.dispatch({type: "UPDATE-NEW-POST-TEXT", newText: e.currentTarget.value})
-    }
-    return (<MyPosts
-            posts={state.profilePage.posts}
-            newPostText={state.profilePage.newPostText}
-            updateNewPostText={onPostChange}
-            addPost={addPost}/>
-    )
 }
+
+const MyPostsContainer =
+    connect<MapStatePropsType, MapDispatchPropsType, OwnType, AppStateType>(mapStateToProps, mapDispatchToProps)(MyPosts)
 
 export default MyPostsContainer;

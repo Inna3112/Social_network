@@ -2,15 +2,15 @@ import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css';
 import Dialog from "./Dialog/Dialog";
 import Message from "./Message/Message";
-import {DialogsPageType} from "../../redux/store";
+import {DialogsType, MessagesType} from "../../redux/store";
 
 
 type PropsType = {
-    dialogsPage: DialogsPageType
+    dialogs: Array<DialogsType>
+    messages: Array<MessagesType>
+    newMessageBody: string
     addMessage: () => void
     updateNewMessageBody: (body:string) => void
-    // dialogs: Array<DialogsType>
-    // messages: Array<MessagesType>
 }
 const Dialogs: React.FC<PropsType> = (props) => {
     const addMessage = () => {
@@ -19,8 +19,8 @@ const Dialogs: React.FC<PropsType> = (props) => {
     const updateNewMessageText = (e: ChangeEvent<HTMLTextAreaElement>) => {
         props.updateNewMessageBody(e.currentTarget.value)
     }
-    let dialogsElements = props.dialogsPage.dialogs.map(d => <Dialog key={d.id} name={d.name} id={d.id}/>)
-    let messagesElements = props.dialogsPage.messages.map(m => <Message key={m.id} message={m.message} id={m.id}/>)
+    let dialogsElements = props.dialogs.map(d => <Dialog key={d.id} name={d.name} id={d.id}/>)
+    let messagesElements = props.messages.map(m => <Message key={m.id} message={m.message} id={m.id}/>)
     return (
         <div className={s.dialogs}>
             <div className={s.dialogItems}>
@@ -29,7 +29,7 @@ const Dialogs: React.FC<PropsType> = (props) => {
             <div className={s.messages}>
                 {messagesElements}
                 <div>
-                    <textarea value={props.dialogsPage.newMessageBody}
+                    <textarea value={props.newMessageBody}
                               onChange={updateNewMessageText}/>
                 </div>
                 <div>

@@ -9,21 +9,20 @@ type PropsType = {
     newPostText: string
     updateNewPostText: (text: string) => void
     addPost:() => void
-    // addPost: () => void
-    // updateNewPostText: (newText: string) => void
+
 }
 
 
 const MyPosts: React.FC<PropsType> = (props) => {
     let postsElement = props.posts
         .map(p => <Post key={p.id} id={p.id} message={p.message} likesCount={p.likesCount}/>)
+
     let addPost = () => {
         props.addPost()
-
     }
+
     let onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         props.updateNewPostText(e.currentTarget.value)
-
     }
     return (
         <div className={s.myPosts}>
