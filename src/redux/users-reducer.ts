@@ -18,11 +18,7 @@ export type UsersStateType = {
 export type ActionType = ReturnType<typeof followAC> | ReturnType<typeof unFollowAC> | ReturnType<typeof setUsersAC>
 
 let initialState: UsersStateType = {
-    users: [
-        {id: 1, photoUrl:"./../../assets/images/avaPost.png", followed: true, name: 'Anna', status: 'I am happy', location: {city: 'Kyiv', country: 'Ukraine'}},
-        {id: 2, photoUrl:"./../../assets/images/avaPost.png", followed: false, name: 'Inna', status: 'I am sed', location: {city: 'Kyiv', country: 'Ukraine'}},
-        {id: 3, photoUrl:"./../../assets/images/avaPost.png", followed: true, name: 'Max', status: 'I am  too happy', location: {city: 'Kyiv', country: 'Ukraine'}},
-    ]
+    users: []
 }
 
 const usersReducer = (state = initialState, action: ActionType) => {
