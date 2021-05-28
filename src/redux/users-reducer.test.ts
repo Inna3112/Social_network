@@ -1,5 +1,5 @@
 import avaPost from "../assets/images/avaPost.png";
-import usersReducer, {followAC, LocationType, setUsersAC, unFollowAC, UsersStateType} from "./users-reducer";
+import usersReducer, {followAC, setUsersAC, unFollowAC, UsersStateType} from "./users-reducer";
 
 let initialState: UsersStateType = {users: []}
 

@@ -2,6 +2,7 @@ import React from "react";
 import {UsersType} from "../../redux/users-reducer";
 import s from "./Users.module.css"
 import avaPost from "./../../assets/images/avaPost.png"
+import axios from "axios";
 
 
 type PropsType = {
@@ -12,34 +13,43 @@ type PropsType = {
 }
 
 let Users = (props: PropsType) => {
-    if (props.users.length === 0) {
-        props.setUsers([
-            {
-                id: 1,
-                photoUrl: avaPost,
-                followed: true,
-                name: 'Anna',
-                status: 'I am happy',
-                location: {city: 'Kyiv', country: 'Ukraine'}
-            },
-            {
-                id: 2,
-                photoUrl: avaPost,
-                followed: false,
-                name: 'Inna',
-                status: 'I am sed',
-                location: {city: 'Kyiv', country: 'Ukraine'}
-            },
-            {
-                id: 3,
-                photoUrl: avaPost,
-                followed: true,
-                name: 'Max',
-                status: 'I am  too happy',
-                location: {city: 'Kyiv', country: 'Ukraine'}
-            }])
+    let getUsers = () => {
+        if (props.users.length === 0) {
+
+            axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
+                // debugger
+                props.setUsers(response.data.items)
+            })
+        }
     }
+
+    // [
+    //     {
+    //         id: 1,
+    //         photoUrl: avaPost,
+    //         followed: true,
+    //         name: 'Anna',
+    //         status: 'I am happy',
+    //         location: {city: 'Kyiv', country: 'Ukraine'}
+    //     },
+    //     {
+    //         id: 2,
+    //         photoUrl: avaPost,
+    //         followed: false,
+    //         name: 'Inna',
+    //         status: 'I am sed',
+    //         location: {city: 'Kyiv', country: 'Ukraine'}
+    //     },
+    //     {
+    //         id: 3,
+    //         photoUrl: avaPost,
+    //         followed: true,
+    //         name: 'Max',
+    //         status: 'I am  too happy',
+    //         location: {city: 'Kyiv', country: 'Ukraine'}
+    //     }]
     return <div>
+        <button onClick={getUsers}>get users</button>
         {
             props.users.map(u => {
                 const onClickFollowHandler = () => props.follow(u.id)
@@ -47,7 +57,8 @@ let Users = (props: PropsType) => {
                 return <div key={u.id} className={s.user}>
                     <div className={s.followingBlock}>
                         <div>
-                            <img src={u.photoUrl} className={s.img}/>
+                            <img src={u.photos.small ? u.photos.small : avaPost}
+                                 className={s.img}/>
                         </div>
                         <div>
                             {u.followed
@@ -61,8 +72,8 @@ let Users = (props: PropsType) => {
                             <div className={s.status}>{u.status}</div>
                         </div>
                         <div className={s.location}>
-                            <div className={s.country}>{u.location.country}</div>
-                            <div className={s.city}>{u.location.city}</div>
+                            <div className={s.country}>{'u.location.country'}</div>
+                            <div className={s.city}>{'u.location.city'}</div>
                         </div>
                     </div>
                 </div>

@@ -5,11 +5,14 @@ export type LocationType = {
     country: string
 }
 export type UsersType = {
-    id: number
-    photoUrl: string
-    followed: boolean
     name: string
-    status: string
+    id: number
+    photos: {
+        small: string
+        large: string
+    },
+    status: string | null,
+    followed: boolean
     location: LocationType
 }
 export type UsersStateType = {
