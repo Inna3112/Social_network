@@ -1,57 +1,38 @@
-import React from "react";
-import {UsersType} from "../../redux/users-reducer";
-import s from "./Users.module.css"
-import avaPost from "./../../assets/images/avaPost.png"
-import axios from "axios";
+import React from 'react';
+import {UsersType} from '../../redux/users-reducer';
+import s from './Users.module.css'
+import avaPost from './../../assets/images/avaPost.png'
+
 
 
 type PropsType = {
     users: Array<UsersType>
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
     follow: (userId: number) => void
     unFollow: (userId: number) => void
-    setUsers: (users: Array<UsersType>) => void
+    onPageChanged: (page: number) => void
 }
 
 let Users = (props: PropsType) => {
-    let getUsers = () => {
-        if (props.users.length === 0) {
-
-            axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
-                // debugger
-                props.setUsers(response.data.items)
-            })
-        }
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
+    let pages = []
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i)
     }
-
-    // [
-    //     {
-    //         id: 1,
-    //         photoUrl: avaPost,
-    //         followed: true,
-    //         name: 'Anna',
-    //         status: 'I am happy',
-    //         location: {city: 'Kyiv', country: 'Ukraine'}
-    //     },
-    //     {
-    //         id: 2,
-    //         photoUrl: avaPost,
-    //         followed: false,
-    //         name: 'Inna',
-    //         status: 'I am sed',
-    //         location: {city: 'Kyiv', country: 'Ukraine'}
-    //     },
-    //     {
-    //         id: 3,
-    //         photoUrl: avaPost,
-    //         followed: true,
-    //         name: 'Max',
-    //         status: 'I am  too happy',
-    //         location: {city: 'Kyiv', country: 'Ukraine'}
-    //     }]
-    return <div>
-        <button onClick={getUsers}>get users</button>
-        {
-            props.users.map(u => {
+        return <div>
+            <div>
+                {pages.map((p, index) => {
+                    return <span key={index}
+                                 className={props.currentPage === p ? `${s.selectedPage} ${s.page}` : s.page}
+                                 onClick={(e) => {
+                                     props.onPageChanged(p)
+                                 }}
+                    >{p}</span>
+                })}
+            </div>
+            {props.users.map(u => {
                 const onClickFollowHandler = () => props.follow(u.id)
                 const onClickUnFollowHandler = () => props.unFollow(u.id)
                 return <div key={u.id} className={s.user}>
@@ -78,8 +59,8 @@ let Users = (props: PropsType) => {
                     </div>
                 </div>
             })
-        }
-    </div>
-}
+            }
+        </div>
+    }
 
 export default Users
