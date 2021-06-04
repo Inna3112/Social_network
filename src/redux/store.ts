@@ -1,14 +1,14 @@
-import profileReducer, {addPostAC, updateNewPostTextAC} from "./profile-reducer";
-import dialogsReducer, { addMessageAC, updateNewMessageBodyAC } from "./dialogs-reducer";
-import sidebarReducer from "./sidebar-reducer";
-import {followAC, unFollowAC} from "./users-reducer";
+import profileReducer, {addPost, updateNewPostText} from './profile-reducer';
+import dialogsReducer, { addMessageAC, updateNewMessageBodyAC } from './dialogs-reducer';
+import sidebarReducer from './sidebar-reducer';
+import {follow, unFollow} from './users-reducer';
 
 
-export type DialogsType = {
+ type DialogsType = {
     id: number
     name: string
 }
-export type MessagesType = {
+ type MessagesType = {
     id: number
     message: string
 }
@@ -17,15 +17,38 @@ export type PostsType = {
     message: string
     likesCount: number
 }
+type ContactsType = {
+    github: string
+    vk: string
+    facebook: string
+    instagram: string
+    twitter: string
+    website: string
+    youtube: string
+    mainLink: string
+}
+export type PhotosType = {
+    small: string | null
+    large: string | null
+}
+export type ProfileType = {
+    userId: number
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    contacts: ContactsType
+    photos: PhotosType
+}
 export type SidebarType = {}
-export type DialogsPageType = {
+ type DialogsPageType = {
     dialogs: Array<DialogsType>
     messages: Array<MessagesType>
     newMessageBody: string
 }
-export type ProfilePageType = {
+type ProfilePageType = {
     posts: Array<PostsType>
     newPostText: string
+    profile: ProfileType
 }
 export type RootStateType = {
     dialogsPage: DialogsPageType
@@ -40,9 +63,9 @@ export type StoreType = {
     dispatch: (action: ActionType) => void
 }
 
-export type ActionType = ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostTextAC>
+export type ActionType = ReturnType<typeof addPost> | ReturnType<typeof updateNewPostText>
     | ReturnType<typeof addMessageAC> | ReturnType<typeof updateNewMessageBodyAC>
-    | ReturnType<typeof followAC> | ReturnType<typeof unFollowAC>
+    | ReturnType<typeof follow> | ReturnType<typeof unFollow>
 
 export const store: StoreType = {
     _state: {
@@ -65,7 +88,27 @@ export const store: StoreType = {
                 {id: 2, message: 'It is my first post', likesCount: 20},
                 {id: 3, message: 'Hello', likesCount: 1}
             ],
-            newPostText: ''
+            newPostText: '',
+            profile: {
+                userId: 0,
+                lookingForAJob: false,
+                lookingForAJobDescription: '',
+                fullName: '',
+                contacts: {
+                    github: '',
+                    vk: '',
+                    facebook: '',
+                    instagram: '',
+                    twitter: '',
+                    website: '',
+                    youtube: '',
+                    mainLink: '',
+                },
+                photos: {
+                    small: null,
+                    large: null
+                },
+            }
         },
         sidebar: {}
     },
@@ -79,13 +122,14 @@ export const store: StoreType = {
         this._callSubscriber = observer
     },
     dispatch(action) {
-        this._state.profilePage = profileReducer(this._state.profilePage, action);
-        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+        // this._state.profilePage = profileReducer(this._state.profilePage, action);
+        // this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
         this._state.sidebar = sidebarReducer(this._state.profilePage, action);
 
         this._callSubscriber()
     }
 }
 
-// window.state = state
+// @ts-ignore
+window.state = state
 

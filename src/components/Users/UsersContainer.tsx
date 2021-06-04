@@ -2,11 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {
-    followAC,
-    setCurrentPageAC,
-    setTotalUsersCountAC,
-    setUsersAC, toggleIsFetchingAC,
-    unFollowAC,
+    follow,
+    setCurrentPage,
+    setTotalUsersCount,
+    setUsers, toggleIsFetching,
+    unFollow,
     UsersStateType,
     UsersType
 } from "../../redux/users-reducer";
@@ -79,17 +79,19 @@ const mapStateToProps = (state: AppStateType): UsersStateType => {
     }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        follow: (userId: number) => dispatch(followAC(userId)),
-        unFollow: (userId: number) => dispatch(unFollowAC(userId)),
-        setUsers: (users: Array<UsersType>) => dispatch(setUsersAC(users)),
-        setCurrentPage: (pageNumber: number) => dispatch(setCurrentPageAC(pageNumber)),
-        setTotalUsersCount: (totalUsersCount: number) => dispatch(setTotalUsersCountAC(totalUsersCount)),
-        toggleIsFetching: (isFetching: boolean) => dispatch(toggleIsFetchingAC(isFetching)),
-    }
-}
+// const mapDispatchToProps = (dispatch: any) => {
+//     return {
+//         follow: (userId: number) => dispatch(followAC(userId)),
+//         unFollow: (userId: number) => dispatch(unFollowAC(userId)),
+//         setUsers: (users: Array<UsersType>) => dispatch(setUsersAC(users)),
+//         setCurrentPage: (pageNumber: number) => dispatch(setCurrentPageAC(pageNumber)),
+//         setTotalUsersCount: (totalUsersCount: number) => dispatch(setTotalUsersCountAC(totalUsersCount)),
+//         toggleIsFetching: (isFetching: boolean) => dispatch(toggleIsFetchingAC(isFetching)),
+//     }
+// }
 
 
-export default connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps)(UsersContainer)
+export default connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+ follow, unFollow, setUsers, setCurrentPage, setTotalUsersCount, toggleIsFetching
+})(UsersContainer)
 

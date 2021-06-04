@@ -20,12 +20,12 @@ export type UsersStateType = {
     currentPage: number
     isFetching: boolean
 }
-export type ActionType = ReturnType<typeof followAC>
-    | ReturnType<typeof unFollowAC>
-    | ReturnType<typeof setUsersAC>
-    | ReturnType<typeof setCurrentPageAC>
-    | ReturnType<typeof setTotalUsersCountAC>
-    | ReturnType<typeof toggleIsFetchingAC>
+export type ActionType = ReturnType<typeof follow>
+    | ReturnType<typeof unFollow>
+    | ReturnType<typeof setUsers>
+    | ReturnType<typeof setCurrentPage>
+    | ReturnType<typeof setTotalUsersCount>
+    | ReturnType<typeof toggleIsFetching>
 
 let initialState: UsersStateType = {
     users: [],
@@ -35,7 +35,7 @@ let initialState: UsersStateType = {
     isFetching: false,
 }
 
-const usersReducer = (state = initialState, action: ActionType) => {
+const usersReducer = (state = initialState, action: ActionType): UsersStateType => {
     switch (action.type) {
         case 'FOLLOW':
             return {
@@ -75,12 +75,12 @@ const usersReducer = (state = initialState, action: ActionType) => {
             return state
     }
 }
-export let followAC = (userId: number) => ({type: 'FOLLOW', userId}) as const
-export let unFollowAC = (userId: number) => ({type: 'UNFOLLOW', userId}) as const
-export let setUsersAC = (users: Array<UsersType>) => ({type: 'SET-USERS', users}) as const
-export let setCurrentPageAC = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage}) as const
-export let setTotalUsersCountAC = (totalUsersCount: number) => ({type: 'SET-TOTAL-USERS-COUNT', totalUsersCount}) as const
-export let toggleIsFetchingAC = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching}) as const
+export let follow = (userId: number) => ({type: 'FOLLOW', userId}) as const
+export let unFollow = (userId: number) => ({type: 'UNFOLLOW', userId}) as const
+export let setUsers = (users: Array<UsersType>) => ({type: 'SET-USERS', users}) as const
+export let setCurrentPage = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage}) as const
+export let setTotalUsersCount = (totalUsersCount: number) => ({type: 'SET-TOTAL-USERS-COUNT', totalUsersCount}) as const
+export let toggleIsFetching = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching}) as const
 
 
 export default usersReducer

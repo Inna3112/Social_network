@@ -2,6 +2,7 @@ import React from 'react';
 import {UsersType} from '../../redux/users-reducer';
 import s from './Users.module.css'
 import avaPost from './../../assets/images/avaPost.png'
+import { NavLink } from 'react-router-dom';
 
 
 
@@ -33,13 +34,17 @@ let Users = (props: PropsType) => {
                 })}
             </div>
             {props.users.map(u => {
+
                 const onClickFollowHandler = () => props.follow(u.id)
                 const onClickUnFollowHandler = () => props.unFollow(u.id)
+
                 return <div key={u.id} className={s.user}>
                     <div className={s.followingBlock}>
                         <div>
-                            <img src={u.photos.small ? u.photos.small : avaPost}
-                                 className={s.img}/>
+                            <NavLink to={'/profile/' + u.id}>
+                                <img src={u.photos.small ? u.photos.small : avaPost}
+                                     className={s.img}/>
+                            </NavLink>
                         </div>
                         <div>
                             {u.followed
@@ -58,8 +63,7 @@ let Users = (props: PropsType) => {
                         </div>
                     </div>
                 </div>
-            })
-            }
+            })}
         </div>
     }
 

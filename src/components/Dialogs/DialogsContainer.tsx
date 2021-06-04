@@ -1,9 +1,9 @@
 import React from 'react';
-import {addMessageAC, updateNewMessageBodyAC} from "../../redux/dialogs-reducer";
+import {addMessageAC, DialogsType, MessagesType, updateNewMessageBodyAC} from "../../redux/dialogs-reducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {DialogsType, MessagesType} from "../../redux/store";
+
 
 type MapStateToPropsType = {
     dialogs: Array<DialogsType>
