@@ -3,6 +3,7 @@ import {UsersType} from '../../redux/users-reducer';
 import s from './Users.module.css'
 import avaPost from './../../assets/images/avaPost.png'
 import { NavLink } from 'react-router-dom';
+import axios from "axios";
 
 
 
@@ -35,8 +36,30 @@ let Users = (props: PropsType) => {
             </div>
             {props.users.map(u => {
 
-                const onClickFollowHandler = () => props.follow(u.id)
-                const onClickUnFollowHandler = () => props.unFollow(u.id)
+                const onClickFollowHandler = () => {
+                    axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
+                        withCredentials: true,
+                        headers: {
+                            "API-KEY": "a585aace-28a5-48d9-b1ef-e81ab36cf848"
+                        }
+                    }).then(response => {
+                        if(response.data.resultCode === 0){
+                            props.follow(u.id)
+                        }
+                    })
+                }
+                const onClickUnFollowHandler = () => {
+                    axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
+                        withCredentials: true,
+                        headers: {
+                            "API-KEY": "a585aace-28a5-48d9-b1ef-e81ab36cf848"
+                        }
+                    }).then(response => {
+                        if(response.data.resultCode === 0){
+                            props.unFollow(u.id)
+                        }
+                    })
+                }
 
                 return <div key={u.id} className={s.user}>
                     <div className={s.followingBlock}>
