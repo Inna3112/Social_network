@@ -5,12 +5,11 @@ import {AppStateType} from '../../redux/redux-store';
 import {
     addPost,
     PostsType,
-    ProfilePageType,
     ProfileType, setUserProfile,
     updateNewPostText
 } from '../../redux/profile-reducer';
-import axios from 'axios';
-import {RouteComponentProps, withRouter } from 'react-router-dom';
+import {RouteComponentProps, withRouter} from 'react-router-dom';
+import {profileAPI} from '../../api/api';
 
 
 type PathParamsType = {
@@ -26,23 +25,22 @@ type MapDispatchPropsType = {
     updateNewPostText: (newText: string) => void
     setUserProfile: (profile: ProfileType) => void
 }
-type OwnProps ={}
+type OwnProps = {}
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnProps & RouteComponentProps<PathParamsType>
 
-class ProfileContainer extends React.Component<PropsType>{
+class ProfileContainer extends React.Component<PropsType> {
 
     componentDidMount() {
         let userId = this.props.match.params.userId
-        if(!userId){
+        if (!userId) {
             userId = '2'
         }
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/`+userId).then(response => {
-
+        profileAPI.getProfile(userId).then(response => {
             this.props.setUserProfile(response.data)
         })
     }
 
-    render(){
+    render() {
         return <Profile {...this.props} profile={this.props.profile}/>
     }
 }
